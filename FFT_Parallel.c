@@ -38,7 +38,7 @@ int main()
 	int h;
 	if(my_rank == 0) //if process 0 open outfile
 	{
-		outfile = fopen("ParallelVersionOutput.txt", "w"); //open from current directory
+		outfile = fopen("parallelVersionOutput.txt", "w"); //open from current directory
 	}
 	for(h = 0; h < howmanytimesavg; h++) //loop to run multiple times for AVG time.
 	{
@@ -46,7 +46,7 @@ int main()
 		{	
 			start = MPI_Wtime();
 		}
-		int i,k,n,j; //Basic loop variables
+		int i,k,j; //Basic loop variables
 
 		double complex evenpart[(bigN / comm_sz / 2)]; //array to save the data for EVENHALF
 		double complex oddpart[(bigN / comm_sz / 2)]; //array to save the data for ODDHALF
@@ -154,7 +154,8 @@ int main()
 				{
 					if(k == 0)
 					{
-						fprintf(outfile," \n\n TOTAL PROCESSED SAMPLES : %d\n",bigN);
+						fprintf(outfile," \n\n TOTAL PROCESSED SAMPLES : %d\n", bigN);
+						fprintf(outfile," TOTAL PROCESSES USED : %d\n", comm_sz);
 					}
 					fprintf(outfile,"================================\n");
 					fprintf(outfile,"XR[%d]: %.4f XI[%d]: %.4f \n",k,storeKsumreal[k],k,storeKsumimag[k]);
@@ -164,7 +165,7 @@ int main()
 		}
 		if(my_rank == 0)
 		{
-			GET_TIME(finish); //stop timer
+            finish = MPI_Wtime();
 			double timeElapsed = finish-start; //Time for that iteration
 			avgtime = avgtime + timeElapsed; //AVG the time 
 			fprintf(outfile,"Time Elaspsed on Iteration %d: %f Seconds\n", (h+1),timeElapsed);

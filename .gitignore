@@ -1,0 +1,4 @@
+*.out
+tags
+parallelVersionOutput.txt
+sequentialVersionOutput.txt
